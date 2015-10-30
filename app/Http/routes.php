@@ -17,15 +17,15 @@ Route::get('/', function () {
 
 Route::post('/message', function()
 {
-  $picture = trim(Input::get('Body'));
+  $picture = strtolower(trim(Input::get('Body')));
 
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, "https://api-http.littlebitscloud.cc/devices/".env('CLOUDBIT_ID')."/output");
   curl_setopt($ch, CURLOPT_POST, 1);
 
-  if(strcasecmp($picture, "ghost") == 0){
+  if(strcmp($picture, "ghost") == 0){
     curl_setopt($ch, CURLOPT_POSTFIELDS, "duration_ms=2000&percent=75");
-  } elseif (strcasecmp($picture, "bat") == 0) {
+  } elseif (strcmp($picture, "bat") == 0) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, "duration_ms=2000&percent=25");
   } else {
     $resp = Response::make("<Response><Message>Sorry I don't know that one. Try bat or ghost.</Message></Response>", 200);
